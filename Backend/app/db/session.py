@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm import declarative_base
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./saathpay.db"  # Change to PostgreSQL/MySQL in production
 
@@ -10,3 +9,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
